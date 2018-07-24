@@ -1,2 +1,2 @@
-# wuji1020.github.io
-My technology blog
+# 技术文档
+记录工作中的经验积累和技术分析。

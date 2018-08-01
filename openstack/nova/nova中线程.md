@@ -10,7 +10,7 @@ Openstack中的服务均使用绿色线程（green thread）来实现多任务�
 
 ### 特性
 
-1. 由于绿色线程在原理上是顺序执行的，因此消除了资源竞争的可能性，但是并不能完全消除，因此在某些场景下需要使用**@lockutils.synchronized(...) **来防止资源竞争。
+1. 由于绿色线程在原理上是顺序执行的，因此消除了资源竞争的可能性，但是并不能完全消除，因此在某些场景下需要使用__@lockutils.synchronized(...) __来防止资源竞争。
 2. 由于所有的绿色线程在一个Python本地线程中，所以当其中某个绿色线程由于某种长时间操作而堵塞时，其他的绿色线程也会堵塞无法正常工作。
 3. 如果一个绿色线程的执行代码时间过长，但是代码中没有触发上下文切换的代码，则可以使用`greenthread.sleep(0)`显式将执行权从当前的绿色线程切换出去，去执行正在pending的其他绿色线程。sleep(0)是为了保证当前只有一个绿色线程时，不会导致执行的延迟。
 4. 使用绿色线程，一个本地线程就能实现多任务的并发，大大降低了系统的开销。且绿色线程之间的切换速度远比本地进程之间的切换效率高。
@@ -78,7 +78,7 @@ def period_heartbeat_file(heartbeat_file):
 
 如果想使用真正的线程，请参考下节[本地线程](#本地线程)。
 
-####数据库使用
+#### 数据库使用
 
 目前我们访问数据库使用oslo.db ，oslo.db有多个API drirver，有[PyMySQL](https://wiki.openstack.org/wiki/PyMySQL_evaluation) ，MySQL-python 等。其中**PyMySQL**是oslo.db的默认API driver，使用eventlet实现并发没有问题。但是**MySQL-python **使用一个外部的C代码库来访问数据库，这就有导致主线程堵塞的情况。
 
